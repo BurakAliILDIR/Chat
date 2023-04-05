@@ -18,7 +18,7 @@ namespace Chat.API.Controllers.Auth
         [HttpPost]
         public async Task<IActionResult> Register(RegisterCommandRequest request)
         {
-            var response  =  await _mediator.Send(request);
+            var response = await _mediator.Send(request);
 
             return Ok(response);
         }

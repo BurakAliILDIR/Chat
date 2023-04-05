@@ -1,17 +1,18 @@
 using Chat.API;
+using Chat.API.Entities;
 using Chat.API.Extensions;
+using IdentityExample.Web.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,6 +20,7 @@ builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContain
 
 builder.Services.AddDbConfiguration(config: builder.Configuration);
 
+builder.Services.AddIdentityExtension();
 
 var app = builder.Build();
 
