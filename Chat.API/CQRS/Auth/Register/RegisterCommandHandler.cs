@@ -48,10 +48,12 @@ namespace Chat.API.CQRS.Auth.Register
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var callbackUrl = _configuration.GetSection("RedirectorSettings:EmailConfirmationPage").Value +
-                              $"?user-id={user.Id}&code={code}";
+                              $"?userId={user.Id}&code={code}";
 
             await _mailService.SendAsync(
-                new MailData(to: new() { user.Email }, subject: "Email Confirmation",
+                new MailData(
+                    to: new() { user.Email }, 
+                    subject: "Email Onaylama",
                     body: @$"<h4>Hesabınınızı aktif etmek için aşağıdaki linke gidiniz.</h4>
                                 <p>
                                     <a href='{callbackUrl}'>Hesap Onaylama Linki</a>

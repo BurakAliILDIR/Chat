@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Chat.API.CQRS.Base;
+using MediatR;
 
 namespace Chat.API.CQRS.Auth.EmailConfirmation
 {
-    public class EmailConfirmationCommandResponse: IRequest<EmailConfirmationCommandResponse>
+    public class EmailConfirmationCommandResponse: BaseResponse
     {
     }
 }

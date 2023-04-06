@@ -40,7 +40,7 @@ namespace Chat.API.CQRS.Auth.Login
 
             return new()
             {
-                AccessToken = token
+                Data = token
             };
         }
     }

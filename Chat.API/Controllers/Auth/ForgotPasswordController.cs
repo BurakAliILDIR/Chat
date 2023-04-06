@@ -14,10 +14,10 @@ namespace Chat.API.Controllers.Auth
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public IActionResult ForgotPassword(ForgotPasswordQueryRequest request)
+        [HttpPost]
+        public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordQueryRequest request)
         {
-            var response = _mediator.Send(request);
+            var response = await _mediator.Send(request);
 
             return Ok(response);
         }

@@ -9,8 +9,8 @@
 
     public class BaseResponse
     {
-        public Result Status { get; set; }
-        public string Message { get; set; }
+        public Result Status { get; set; } = Result.Success;
+        public string Message { get; set; } = "Başarılı";
         public object Data { get; set; }
     }
 }
