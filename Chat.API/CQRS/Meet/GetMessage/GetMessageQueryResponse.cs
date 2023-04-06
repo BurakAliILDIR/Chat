@@ -6,6 +6,5 @@ namespace Chat.API.CQRS.Meet.GetMessage
 {
     public class GetMessageQueryResponse : BaseResponse
     {
-        public List<MessageDto> Messages { get; set; }
     }
 }

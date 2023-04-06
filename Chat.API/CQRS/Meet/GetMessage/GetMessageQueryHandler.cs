@@ -42,7 +42,7 @@ namespace Chat.API.CQRS.Meet.GetMessage
 
             return new GetMessageQueryResponse()
             {
-                Messages = messageDtos
+                Data = messageDtos
             };
         }
     }
