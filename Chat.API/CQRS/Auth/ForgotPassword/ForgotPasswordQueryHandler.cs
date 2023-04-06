@@ -33,7 +33,7 @@ namespace Chat.API.CQRS.Auth.ForgotPassword
             if (user is null)
                 throw new NotFoundUserException("Sent email.");
 
-            var token = _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var callbackUrl = _redirectorSettings.ResetPasswordPage + $"?userId={user.Id}&token={token}";
 
