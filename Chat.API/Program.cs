@@ -4,6 +4,7 @@ using Chat.API.Entities;
 using Chat.API.Extensions;
 using Chat.API.Infrastructure.Jwt;
 using Chat.API.Infrastructure.Mail;
+using Chat.API.Mapper;
 using Chat.API.Middlewares;
 using IdentityExample.Web.Extensions;
 using Microsoft.AspNetCore.Authentication;
@@ -47,6 +48,10 @@ builder.Services.AddIdentityExtension();
 builder.Services.AddJwtConfiguration(config: builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
+
+// Auto Mapper.
+builder.Services.AddAutoMapper(typeof(Mapper));
+
 builder.Services.AddScoped<IMailService, MailService>();
 
 var app = builder.Build();
