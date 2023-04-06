@@ -24,7 +24,7 @@ namespace Chat.API.CQRS.Auth.EmailConfirmation
             if (user is null)
                 throw new NotFoundUserException("Kullanıcı bulunamadı.");
 
-            var result = await _userManager.ConfirmEmailAsync(user, request.Code);
+            var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 
             if (!result.Succeeded)
                 throw new Exception("Email onaylanamadı.");

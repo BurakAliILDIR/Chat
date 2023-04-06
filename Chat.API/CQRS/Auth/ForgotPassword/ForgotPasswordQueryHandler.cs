@@ -44,6 +44,7 @@ namespace Chat.API.CQRS.Auth.ForgotPassword
                                 <p>
                                     <a href='{callbackUrl}'>Şifre Değiştirme Linki</a>
                                 </p>"), cancellationToken);
+
             if (!result)
             {
                 throw new Exception("Parola sıfırlama maili gönderilemedi.");

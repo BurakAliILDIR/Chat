@@ -12,7 +12,7 @@ namespace Chat.API.CQRS.Auth.Register
 
         public required string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Parola ve parola onay eşleşmiyor.")]
         public required string PasswordConfirm { get; set; }
     }
 }
