@@ -3,7 +3,9 @@ using MediatR;
 using MongoDB.Driver;
 using System.Security.Claims;
 using AutoMapper;
+using Chat.API.Configs;
 using Chat.API.CQRS.Meet.GetMessage.Dto;
+using Microsoft.Extensions.Options;
 
 namespace Chat.API.CQRS.Meet.GetMessage
 {
@@ -12,15 +14,18 @@ namespace Chat.API.CQRS.Meet.GetMessage
         private readonly IMongoCollection<Entities.Message> _meetCollection;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly MongoDbSettings _mongoDbSettings;
 
-        public GetMessageQueryHandler(IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public GetMessageQueryHandler(IHttpContextAccessor httpContextAccessor, IMapper mapper,
+            IOptions<MongoDbSettings> mongoDbSettings)
         {
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _mongoDbSettings = mongoDbSettings.Value;
 
-            IMongoClient mongoClient = new MongoClient("mongodb://localhost:27017");
-            IMongoDatabase db = mongoClient.GetDatabase("ChatDb");
-            _meetCollection = db.GetCollection<Entities.Message>("Meets");
+            IMongoClient mongoClient = new MongoClient(_mongoDbSettings.ConnectionStrings);
+            IMongoDatabase db = mongoClient.GetDatabase(_mongoDbSettings.DatabaseName);
+            _meetCollection = db.GetCollection<Entities.Message>(_mongoDbSettings.MeetCollectionName);
         }
 
         public async Task<GetMessageQueryResponse> Handle(GetMessageQueryRequest request,
@@ -34,7 +39,6 @@ namespace Chat.API.CQRS.Meet.GetMessage
 
 
             var messageDtos = _mapper.Map<List<MessageDto>>(messages);
-
 
             return new GetMessageQueryResponse()
             {

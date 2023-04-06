@@ -17,7 +17,7 @@ namespace Chat.API.Controllers.Meet
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("Send")]
         public async Task<IActionResult> SendMessage(SendMessageCommandRequest request)
         {
             var response = await _mediator.Send(request);
@@ -25,7 +25,7 @@ namespace Chat.API.Controllers.Meet
             return Ok(response);
         }
 
-        [HttpPost("GetMessages")]
+        [HttpPost("Get")]
         public async Task<IActionResult> GetMessages(GetMessageQueryRequest request)
         {
             var response = await _mediator.Send(request);

@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
+using Chat.API.Configs;
 using Chat.API.Entities;
 using MediatR;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Chat.API.CQRS.Meet.SendMessage
@@ -9,14 +11,16 @@ namespace Chat.API.CQRS.Meet.SendMessage
     {
         private readonly IMongoCollection<Entities.Message> _meetCollection;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly MongoDbSettings _mongoDbSettings;
 
-        public SendMessageCommandHandler(IHttpContextAccessor httpContextAccessor)
+        public SendMessageCommandHandler(IHttpContextAccessor httpContextAccessor, IOptions<MongoDbSettings> mongoDbSettings)
         {
             _httpContextAccessor = httpContextAccessor;
+            _mongoDbSettings = mongoDbSettings.Value;
 
-            IMongoClient mongoClient = new MongoClient("mongodb://localhost:27017");
-            IMongoDatabase db = mongoClient.GetDatabase("ChatDb");
-            _meetCollection = db.GetCollection<Entities.Message>("Meets");
+            IMongoClient mongoClient = new MongoClient(_mongoDbSettings.ConnectionStrings);
+            IMongoDatabase db = mongoClient.GetDatabase(_mongoDbSettings.DatabaseName);
+            _meetCollection = db.GetCollection<Entities.Message>(_mongoDbSettings.MeetCollectionName);
         }
 
         public async Task<SendMessageCommandResponse> Handle(SendMessageCommandRequest request,

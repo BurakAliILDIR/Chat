@@ -9,6 +9,7 @@ namespace Chat.API.Extensions
             services.Configure<MailSettings>(config.GetSection(nameof(MailSettings)));
             services.Configure<RedirectorSettings>(config.GetSection(nameof(RedirectorSettings)));
             services.Configure<JwtSettings>(config.GetSection(nameof(JwtSettings)));
+            services.Configure<MongoDbSettings>(config.GetSection(nameof(MongoDbSettings)));
         }
     }
 }

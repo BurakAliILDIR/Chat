@@ -1,20 +1,11 @@
 using Chat.API;
-using Chat.API.Configs;
-using Chat.API.Entities;
 using Chat.API.Extensions;
-using Chat.API.Infrastructure.Jwt;
 using Chat.API.Infrastructure.Mail;
 using Chat.API.Mapper;
 using Chat.API.Middlewares;
 using IdentityExample.Web.Extensions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 var builder = WebApplication.CreateBuilder(args);
 
