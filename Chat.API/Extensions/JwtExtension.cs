@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Chat.API.Infrastructure.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -26,6 +27,7 @@ namespace Chat.API.Extensions
                     ValidateIssuerSigningKey = true
                 };
             });
+
         }
     }
 }

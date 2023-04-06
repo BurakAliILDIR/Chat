@@ -10,15 +10,15 @@ namespace Chat.API.CQRS.Auth.Login
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IConfiguration _configuration;
+        private readonly IJwtHelper _jwtHelper;
 
 
         public LoginQueryHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            IConfiguration configuration)
+            IJwtHelper jwtHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
+            _jwtHelper = jwtHelper;
         }
 
         public async Task<LoginQueryResponse> Handle(LoginQueryRequest request, CancellationToken cancellationToken)
@@ -36,7 +36,7 @@ namespace Chat.API.CQRS.Auth.Login
             if (!result.Succeeded)
                 throw new NotFoundUserException("Your information is wrong.");
 
-            var token = JwtHelper.CreateToken(user, _configuration);
+            var token = _jwtHelper.CreateToken(user);
 
             return new()
             {

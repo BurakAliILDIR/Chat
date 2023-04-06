@@ -2,6 +2,7 @@ using Chat.API;
 using Chat.API.Configs;
 using Chat.API.Entities;
 using Chat.API.Extensions;
+using Chat.API.Infrastructure.Jwt;
 using Chat.API.Infrastructure.Mail;
 using Chat.API.Middlewares;
 using IdentityExample.Web.Extensions;
@@ -31,6 +32,7 @@ builder.Services.AddJwtConfiguration(config: builder.Configuration);
 
 builder.Services.AddScoped<IMailService, GoogleMailService>();
 
+builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

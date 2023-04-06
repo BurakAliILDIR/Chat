@@ -1,18 +1,27 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Chat.API.Configs;
 using Chat.API.Entities;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Chat.API.Infrastructure.Jwt
 {
-    public static class JwtHelper
+    public class JwtHelper : IJwtHelper
     {
-        public static string CreateToken(AppUser user, IConfiguration config)
+        private readonly JwtSettings _jwtSettings;
+
+        public JwtHelper(IOptions<JwtSettings> jwtSettings)
         {
-            var issuer = config["Jwt:Issuer"];
-            var audience = config["Jwt:Audience"];
-            var key = Encoding.ASCII.GetBytes(config["Jwt:Key"]);
+            _jwtSettings = jwtSettings.Value;
+        }
+
+        public string CreateToken(AppUser user)
+        {
+            var issuer = _jwtSettings.Issuer;
+            var audience = _jwtSettings.Audience;
+            var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
