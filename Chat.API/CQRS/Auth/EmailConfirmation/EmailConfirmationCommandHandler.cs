@@ -1,5 +1,4 @@
 ﻿using Chat.API.Entities;
-using Chat.API.Exceptions.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -22,7 +21,7 @@ namespace Chat.API.CQRS.Auth.EmailConfirmation
             var user = await _userManager.FindByIdAsync(request.UserId);
 
             if (user is null)
-                throw new NotFoundUserException("Kullanıcı bulunamadı.");
+                throw new Exception("Kullanıcı bulunamadı.");
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 

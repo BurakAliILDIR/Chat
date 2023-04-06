@@ -6,11 +6,11 @@ using MimeKit;
 
 namespace Chat.API.Infrastructure.Mail
 {
-    public class GoogleMailService : IMailService
+    public class MailService : IMailService
     {
         private readonly MailSettings _settings;
 
-        public GoogleMailService(IOptions<MailSettings> settings)
+        public MailService(IOptions<MailSettings> settings)
         {
             _settings = settings.Value;
         }

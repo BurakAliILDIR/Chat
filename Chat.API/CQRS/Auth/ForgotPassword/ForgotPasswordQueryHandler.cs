@@ -1,6 +1,5 @@
 ﻿using Chat.API.Configs;
 using Chat.API.Entities;
-using Chat.API.Exceptions.Auth;
 using Chat.API.Infrastructure.Mail;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +30,7 @@ namespace Chat.API.CQRS.Auth.ForgotPassword
                 user = await _userManager.FindByEmailAsync(request.UsernameOrEmail);
 
             if (user is null)
-                throw new NotFoundUserException("Sent email.");
+                throw new Exception("Sent email.");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 

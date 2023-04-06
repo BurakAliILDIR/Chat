@@ -1,5 +1,4 @@
 ﻿using Chat.API.Entities;
-using Chat.API.Exceptions.Auth;
 using Chat.API.Infrastructure.Jwt;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -29,12 +28,12 @@ namespace Chat.API.CQRS.Auth.Login
                 user = await _userManager.FindByEmailAsync(request.UsernameOrEmail);
 
             if (user is null)
-                throw new NotFoundUserException("Your information is wrong.");
+                throw new Exception("Kullanıcı bilgileriniz yanlış.");
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, true, true);
 
             if (!result.Succeeded)
-                throw new NotFoundUserException("Your information is wrong.");
+                throw new Exception("Kullanıcı bilgileriniz yanlış.");
 
             var token = _jwtHelper.CreateToken(user);
 

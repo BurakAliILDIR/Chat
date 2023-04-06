@@ -1,4 +1,7 @@
-﻿namespace Chat.API.CQRS.Base
+﻿
+using System.Text.Json.Serialization;
+
+namespace Chat.API.CQRS.Base
 {
     public enum Result
     {
@@ -10,7 +13,7 @@
     public class BaseResponse
     {
         public Result Status { get; set; } = Result.Success;
-        public string Message { get; set; } = "Başarılı";
+        public string Message { get; set; } = "Başarılı!";
         public object Data { get; set; }
     }
 }
