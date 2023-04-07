@@ -4,13 +4,17 @@
 
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
-
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
     <script type="text/javascript">
         
        $(document).ready(()=> {
                     
-            const connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7208/myhub").build();
+            const connection = new signalR
+            .HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Debug)
+            .withUrl("https://localhost:7208/myhub")
+            .withAutomaticReconnect([1000, 1000, 3000, 10000]) // tekrar bağlanmayı deneme süreleri. // default: 0, 2, 10, 30
+            .build();
 
             async function start() {
                 try {
@@ -34,13 +38,13 @@
             
             
             $("#btnSave").click(()=> {
-                var value = $("#txtName").val()
-                console.log(value)
+                var value = $("#txtName").val();
                 connection.invoke("SendName", value).catch((err) => console.log(err));
             });
 
             connection.on("ReceiveName", (name) => {
-                console.log("Name: " + name)
+                $("#names").append(`<li class="list-group-item">${name}</li>`);
+                $("#txtName").text();
             });
        });
 
@@ -49,7 +53,14 @@
 }
 
 <div class="text-center">
+    <br/>
     <h1 id="connectionStatus"></h1>
+    <br/>
     <input id="txtName"/>
     <button id="btnSave">İsim Kaydet</button>
+    <hr/>
+
 </div>
+<ul class="list-group" id="names">
+
+</ul>
