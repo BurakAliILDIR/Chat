@@ -1,9 +1,11 @@
 using Chat.API;
 using Chat.API.Extensions;
+using Chat.API.Hubs;
 using Chat.API.Infrastructure.Mail;
 using Chat.API.Mapper;
 using Chat.API.Middlewares;
 using IdentityExample.Web.Extensions;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -45,6 +47,21 @@ builder.Services.AddAutoMapper(typeof(Mapper));
 
 builder.Services.AddScoped<IMailService, MailService>();
 
+// SignalR
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy" ,builder =>
+    {
+        builder.
+        WithOrigins("https://localhost:7097")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,8 +76,13 @@ app.UseErrorHandlerMiddleware();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
+
+app.MapHub<MyHub>("/myhub");
 
 app.Run();

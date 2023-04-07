@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <script type="text/javascript">
+        
+       $(document).ready(()=> {
+                    
+            const connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7208/myhub").build();
+
+            async function start() {
+                try {
+                    await connection.start();
+                    console.log("SignalR Connected.");
+                } catch (err) {
+                    console.log(err);
+                    setTimeout(start, 5000);
+                }
+            };
+
+            connection.onclose(async () => {
+                await start();
+            });
+
+            start();
+            
+            setInterval(()=> {
+                $("#connectionStatus").text(connection.state)
+            }, 1000);
+            
+            
+            $("#btnSave").click(()=> {
+                var value = $("#txtName").val()
+                console.log(value)
+                connection.invoke("SendName", value).catch((err) => console.log(err));
+            });
+
+            connection.on("ReceiveName", (name) => {
+                console.log("Name: " + name)
+            });
+       });
+
+    </script>
+
+}
+
+<div class="text-center">
+    <h1 id="connectionStatus"></h1>
+    <input id="txtName"/>
+    <button id="btnSave">İsim Kaydet</button>
+</div>
