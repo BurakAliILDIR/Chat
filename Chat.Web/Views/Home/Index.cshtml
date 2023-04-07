@@ -19,32 +19,50 @@
             async function start() {
                 try {
                     await connection.start();
+                    $("#loadingIcon").hide();
                     console.log("SignalR Connected.");
                 } catch (err) {
                     console.log(err);
                     setTimeout(start, 5000);
                 }
             };
-
-            connection.onclose(async () => {
-                await start();
-            });
-
+            
+            // Start Connection.
             start();
             
+            // Reconnecting
+            connection.onreconnecting((err) => {
+                $("#loadingIcon").show();
+                console.log("{onreconnection}: " + err)
+            })
+            
+            // Reconnected
+            connection.onreconnected(connectionId => {
+                console.log("connectionId: " + connectionId)
+                $("#loadingIcon").hide();
+            })
+            
+            // Close 
+            connection.onclose(async () => {
+                $("#loadingIcon").hide();
+                await start();
+            });
+            
+            // Connection Status Viewer
             setInterval(()=> {
                 $("#connectionStatus").text(connection.state)
             }, 1000);
             
-            
+            // Send Data Connect
             $("#btnSave").click(()=> {
                 var value = $("#txtName").val();
                 connection.invoke("SendName", value).catch((err) => console.log(err));
             });
-
+            
+            // Get Data Connect
             connection.on("ReceiveName", (name) => {
                 $("#names").append(`<li class="list-group-item">${name}</li>`);
-                $("#txtName").text();
+                $("#txtName").clear();
             });
        });
 
@@ -55,9 +73,13 @@
 <div class="text-center">
     <br/>
     <h1 id="connectionStatus"></h1>
+    <div class="spinner-border text-primary" role="status" id="loadingIcon">
+        <span class="sr-only"></span>
+    </div>
     <br/>
     <input id="txtName"/>
     <button id="btnSave">İsim Kaydet</button>
+
     <hr/>
 
 </div>
