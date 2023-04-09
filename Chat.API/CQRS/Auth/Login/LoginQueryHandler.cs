@@ -37,9 +37,14 @@ namespace Chat.API.CQRS.Auth.Login
 
             var token = _jwtHelper.CreateToken(user);
 
+
             return new()
             {
-                Data = token
+                Data = new Dictionary<string, object>()
+                {
+                    { "accessToken", token },
+                    { "refreshToken", token }
+                }
             };
         }
     }
