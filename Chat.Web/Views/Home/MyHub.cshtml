@@ -4,19 +4,15 @@
 
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.4/signalr.js"></script>
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
     <script type="text/javascript">
         
        $(document).ready(()=> {
                     
-
-            const connection = new signalR.HubConnectionBuilder()
-            // .configureLogging(signalR.LogLevel.Debug)
-            .withUrl("https://localhost:7208/messagehub", {
-                accessTokenFactory: () => localStorage.getItem('access_token'),
-                skipNegotiation: true,
-                transport: signalR.HttpTransportType.WebSockets
-            })
+            const connection = new signalR
+            .HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Debug)
+            .withUrl("https://localhost:7208/myhub")
             .withAutomaticReconnect([1000, 1000, 3000, 10000]) // tekrar bağlanmayı deneme süreleri. // default: 0, 2, 10, 30
             .build();
 
@@ -25,6 +21,10 @@
                     await connection.start();
                     $("#loadingIcon").hide();
                     console.log("SignalR Connected.");
+                    
+                    connection.invoke("GetNames");
+                    
+
                 } catch (err) {
                     console.log(err);
                     setTimeout(start, 5000);
@@ -59,24 +59,32 @@
             
             // Send Data Connect
             $("#btnSave").click(()=> {
-                var value = $("#txtMessage").val();
-                connection.invoke("SendMessage", { "ReceiverId": "string1", "Text": value }).catch((err) => console.log(err));
+                var value = $("#txtName").val();
+                connection.invoke("SendName", value).catch((err) => console.log(err));
             });
             
             // Get Data Connect
-            connection.on("ReceiveMessage", (name) => {
-                $("#messages").append(`<li class="list-group-item">${name}</li>`);
+            connection.on("ReceiveName", (name) => {
+                $("#names").append(`<li class="list-group-item">${name}</li>`);
             });
             
-            // Global Connection Id Tanımı.
-            let _connectionId = "";
-
-            connection.on("GetConnectionId", (connectionId) => {
-                _connectionId = connectionId;
-                $("#connectionId").text(_connectionId);
+            connection.on("ReceiveNames", (names) => {
+                names.forEach((name)=> {
+                    $("#names").append(`<li class="list-group-item">${name}</li>`);
+                })
             });
             
-
+            connection.on("ReceiveClientCount", (count) => {
+                $("#clientCount").text("Bağlı kişi sayısı: " + (count));
+            });
+            
+            connection.on("Notify", (text) => {
+                $("#notify").text(text);
+            });
+            
+            connection.on("Error", (text) => {
+                $("#notify").text(text);
+            });
        });
 
     </script>
@@ -86,28 +94,18 @@
 <div class="text-center">
     <br/>
     <h1 id="connectionStatus"></h1>
-    <h1 id="connectionId"></h1>
+    <h3 id="clientCount"></h3>
+    <h3 id="notify"></h3>
     <div class="spinner-border text-primary" role="status" id="loadingIcon">
         <span class="sr-only"></span>
     </div>
     <br/>
-    <input id="txtMessage"/>
+    <input id="txtName"/>
     <button id="btnSave">İsim Kaydet</button>
 
     <hr/>
 
 </div>
-<ol class="list-group" id="messages">
+<ol class="list-group" id="names">
 
 </ol>
-
-<hr/>
-<input type="radio" name="group" value="A"/>A
-<br/>
-<input type="radio" name="group" value="B"/>B
-<br/>
-
-<input type="radio" name="group" value="C"/>C
-<br/>
-<br/>
-<input type="button" id="groupLogin" value="Gruba Gir"/>

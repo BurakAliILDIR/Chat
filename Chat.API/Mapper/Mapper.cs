@@ -8,7 +8,7 @@ namespace Chat.API.Mapper
     {
         public Mapper()
         {
-            CreateMap<Message, MessageDto>();
+            CreateMap<Message, GetMessageDto>();
         }
     }
 }

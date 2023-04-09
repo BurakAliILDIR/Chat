@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.API", "Chat.API\Chat.API.csproj", "{ABA9E4B3-C013-4536-8D79-2C9E406A36A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Web", "Chat.Web\Chat.Web.csproj", "{42D0D8EB-3F26-45F8-807F-3B633C975AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Web", "Chat.Web\Chat.Web.csproj", "{42D0D8EB-3F26-45F8-807F-3B633C975AB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

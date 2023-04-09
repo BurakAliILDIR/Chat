@@ -38,7 +38,7 @@ namespace Chat.API.CQRS.Meet.GetMessage
                 .ToListAsync();
 
 
-            var messageDtos = _mapper.Map<List<MessageDto>>(messages);
+            var messageDtos = _mapper.Map<List<GetMessageDto>>(messages);
 
             return new GetMessageQueryResponse()
             {

@@ -1,11 +1,13 @@
 using Chat.API;
 using Chat.API.Extensions;
 using Chat.API.Hubs;
+using Chat.API.Hubs.Message;
 using Chat.API.Infrastructure.Mail;
 using Chat.API.Mapper;
 using Chat.API.Middlewares;
 using IdentityExample.Web.Extensions;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.WebSockets;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -52,13 +54,13 @@ builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy" ,builder =>
+    options.AddPolicy("CorsPolicy", builder =>
     {
-        builder.
-        WithOrigins("https://localhost:7097")
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        builder
+            .WithOrigins("https://localhost:7097")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -84,5 +86,6 @@ app.MapControllers();
 app.UseCors("CorsPolicy");
 
 app.MapHub<MyHub>("/myhub");
+app.MapHub<MessageHub>("/messagehub");
 
 app.Run();

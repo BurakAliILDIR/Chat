@@ -4,19 +4,15 @@
 
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.4/signalr.js"></script>
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
     <script type="text/javascript">
         
        $(document).ready(()=> {
                     
-
-            const connection = new signalR.HubConnectionBuilder()
-            // .configureLogging(signalR.LogLevel.Debug)
-            .withUrl("https://localhost:7208/messagehub", {
-                accessTokenFactory: () => localStorage.getItem('access_token'),
-                skipNegotiation: true,
-                transport: signalR.HttpTransportType.WebSockets
-            })
+            const connection = new signalR
+            .HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Debug)
+            .withUrl("https://localhost:7208/messagehub")
             .withAutomaticReconnect([1000, 1000, 3000, 10000]) // tekrar bağlanmayı deneme süreleri. // default: 0, 2, 10, 30
             .build();
 
@@ -60,7 +56,12 @@
             // Send Data Connect
             $("#btnSave").click(()=> {
                 var value = $("#txtMessage").val();
-                connection.invoke("SendMessage", { "ReceiverId": "string1", "Text": value }).catch((err) => console.log(err));
+                connection.invoke("SendMessage", { "ReceiverId": "Test", "Text": value }).catch((err) => console.log(err));
+            });
+            // Send Data Connect
+            $("#btnSave").click(()=> {
+                var value = $("#txtMessage").val();
+                connection.invoke("SendGroupMessage", value, "B").catch((err) => console.log(err));
             });
             
             // Get Data Connect
@@ -76,6 +77,10 @@
                 $("#connectionId").text(_connectionId);
             });
             
+            $("#groupLogin").click(()=> {
+                var groupValue = $("input[name=group]:checked").val();
+                connection.invoke("AddGroup", _connectionId, groupValue).catch((err) => console.log(err));
+            });
 
        });
 

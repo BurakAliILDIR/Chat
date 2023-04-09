@@ -1,6 +1,6 @@
 ﻿namespace Chat.API.CQRS.Meet.GetMessage.Dto
 {
-    public class MessageDto
+    public class GetMessageDto
     {
         public string ReceiverId { get; init; }
         public string SenderId { get; init; }
