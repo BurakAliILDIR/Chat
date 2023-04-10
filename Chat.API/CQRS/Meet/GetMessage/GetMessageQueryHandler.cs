@@ -4,7 +4,6 @@ using MongoDB.Driver;
 using System.Security.Claims;
 using AutoMapper;
 using Chat.API.Configs;
-using Chat.API.CQRS.Meet.GetMessage.Dto;
 using Microsoft.Extensions.Options;
 
 namespace Chat.API.CQRS.Meet.GetMessage
@@ -33,8 +32,10 @@ namespace Chat.API.CQRS.Meet.GetMessage
         {
             var senderId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var meetId = Message.GetId(request.ReceiveId, senderId);
+
             List<Message> messages = await _meetCollection
-                .FindAsync(x => x.SenderId == senderId && x.ReceiverId == request.ReceiveId).Result
+                .FindAsync(x => x.MeetId == meetId).Result
                 .ToListAsync();
 
 

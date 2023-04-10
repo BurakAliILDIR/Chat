@@ -25,7 +25,7 @@ namespace Chat.API.Entities
             CreatedAt = DateTime.UtcNow;
         }
 
-        public string GetId(string receiverId, string senderId)
+        public static string GetId(string receiverId, string senderId)
         {
             if (receiverId.CompareTo(senderId) > senderId.CompareTo(receiverId))
                 return $"{senderId}_{receiverId}";

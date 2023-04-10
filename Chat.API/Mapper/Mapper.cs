@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Chat.API.CQRS.Meet.GetMessage.Dto;
+using Chat.API.CQRS.Meet.GetMessage;
+using Chat.API.CQRS.User.GetAll;
 using Chat.API.Entities;
 
 namespace Chat.API.Mapper
@@ -9,6 +10,7 @@ namespace Chat.API.Mapper
         public Mapper()
         {
             CreateMap<Message, GetMessageDto>();
+            CreateMap<AppUser, GetAllUserDto>();
         }
     }
 }

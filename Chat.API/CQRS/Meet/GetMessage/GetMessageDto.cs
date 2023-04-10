@@ -1,4 +1,4 @@
-﻿namespace Chat.API.CQRS.Meet.GetMessage.Dto
+﻿namespace Chat.API.CQRS.Meet.GetMessage
 {
     public class GetMessageDto
     {

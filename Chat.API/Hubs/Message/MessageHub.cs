@@ -21,10 +21,12 @@ namespace Chat.API.Hubs.Message
         {
             await _mediator.Send(request);
 
-            // var kendisi = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var sender = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await Clients.User(request.ReceiverId)
-                .SendAsync("ReceiveMessage", request.ReceiverId + ": " + request.Text);
+               .SendAsync("ReceiveMessage", sender + ": " + request.Text);
+
+            //await Clients.All.SendAsync("ReceiveMessage", sender + ": " + request.Text);
         }
 
         public override async Task OnConnectedAsync()
