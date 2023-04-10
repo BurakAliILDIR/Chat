@@ -21,5 +21,11 @@ namespace Chat.API.Controllers.Auth
 
             return Ok(response);
         }
+
+        [HttpGet]
+        public  IActionResult Login()
+        {
+            return Ok("Test Başarılı!");
+        }
     }
 }
