@@ -1,6 +1,8 @@
 ﻿using Chat.API.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace Chat.API.CQRS.Auth.EmailConfirmation
 {
@@ -23,7 +25,9 @@ namespace Chat.API.CQRS.Auth.EmailConfirmation
             if (user is null)
                 throw new Exception("Kullanıcı bulunamadı.");
 
-            var result = await _userManager.ConfirmEmailAsync(user, request.Token);
+            var decodeToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodeToken);
 
             if (!result.Succeeded)
                 throw new Exception("Email onaylanamadı.");

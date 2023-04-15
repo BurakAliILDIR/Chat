@@ -1,9 +1,13 @@
-﻿using Chat.API.Configs;
+﻿using System.Text;
+using System.Web;
+using Chat.API.Configs;
 using Chat.API.Entities;
 using Chat.API.Infrastructure.Mail;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 
 namespace Chat.API.CQRS.Auth.ForgotPassword
 {
@@ -33,6 +37,8 @@ namespace Chat.API.CQRS.Auth.ForgotPassword
                 throw new Exception("Sent email.");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
             var callbackUrl = _redirectorSettings.ResetPasswordPage + $"?userId={user.Id}&token={token}";
 

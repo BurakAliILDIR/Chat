@@ -1,11 +1,14 @@
 ﻿using System.Security.Policy;
+using System.Text;
 using Chat.API.Configs;
 using Chat.API.CQRS.Base;
 using Chat.API.Entities;
 using Chat.API.Infrastructure.Mail;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 
 namespace Chat.API.CQRS.Auth.Register
 {
@@ -45,10 +48,12 @@ namespace Chat.API.CQRS.Auth.Register
 
             var user = await _userManager.FindByNameAsync(request.Username);
 
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
             var callbackUrl = _configuration.GetSection("RedirectorSettings:EmailConfirmationPage").Value +
-                              $"?userId={user.Id}&code={code}";
+                              $"?userId={user.Id}&token={token}";
 
             await _mailService.SendAsync(
                 new MailData(
