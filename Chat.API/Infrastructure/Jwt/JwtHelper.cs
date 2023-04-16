@@ -33,7 +33,7 @@ namespace Chat.API.Infrastructure.Jwt
                     new Claim(JwtRegisteredClaimNames.Jti,
                         Guid.NewGuid().ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(60),
+                Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenMinute),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
