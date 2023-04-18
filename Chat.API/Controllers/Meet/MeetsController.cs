@@ -1,4 +1,5 @@
-﻿using Chat.API.CQRS.Meet.GetMessage;
+﻿using Chat.API.CQRS.Meet.GetMeet;
+using Chat.API.CQRS.Meet.GetMessage;
 using Chat.API.CQRS.Meet.SendMessage;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,14 @@ namespace Chat.API.Controllers.Meet
             _mediator = mediator;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetMeets(GetMeetQueryRequest request)
+        {
+            var response = await _mediator.Send(request);
+
+            return Ok(response);
+        }
+
         [HttpPost("Send")]
         public async Task<IActionResult> SendMessage(SendMessageCommandRequest request)
         {
@@ -25,7 +34,7 @@ namespace Chat.API.Controllers.Meet
             return Ok(response);
         }
 
-        [HttpPost("Get")]
+        [HttpPost("Get/Messages")]
         public async Task<IActionResult> GetMessages(GetMessageQueryRequest request)
         {
             var response = await _mediator.Send(request);

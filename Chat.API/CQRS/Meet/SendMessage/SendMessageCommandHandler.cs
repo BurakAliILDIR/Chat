@@ -24,9 +24,9 @@ namespace Chat.API.CQRS.Meet.SendMessage
         {
             var senderId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var meetId = Entities.Meet.MeetId(request.ReceiverId, senderId);
 
-            var meet = await _dbContext.Meets.Where(x => x.Id == meetId).FirstOrDefaultAsync();
+            var meet = await _dbContext.Meets.Where(x => x.SenderId == senderId || x.ReceiverId == senderId)
+                .FirstOrDefaultAsync();
 
             bool isMeet = meet is null;
 
@@ -37,11 +37,13 @@ namespace Chat.API.CQRS.Meet.SendMessage
 
             if (isMeet)
             {
-                meet.Id = meetId;
+                meet.Id = Guid.NewGuid();
+                meet.SenderId = senderId;
+                meet.ReceiverId = request.ReceiverId;
                 await _dbContext.Meets.AddAsync(meet);
             }
 
-            var message = new Message(meetId: meetId, receiverId: request.ReceiverId, senderId: senderId,
+            var message = new Message(meetId: meet.Id, receiverId: request.ReceiverId, senderId: senderId,
                 text: request.Text);
 
             await _dbContext.Messages.AddAsync(message);

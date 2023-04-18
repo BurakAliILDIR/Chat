@@ -55,7 +55,9 @@ namespace Chat.API.Migrations
                 name: "Meets",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SenderId = table.Column<string>(type: "text", nullable: true),
+                    ReceiverId = table.Column<string>(type: "text", nullable: true),
                     LastMessage = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -189,8 +191,8 @@ namespace Chat.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    MeetId = table.Column<string>(type: "text", nullable: false),
-                    ReceiverId = table.Column<string>(type: "text", nullable: false),
+                    MeetId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReceiverId = table.Column<string>(type: "text", nullable: true),
                     SenderId = table.Column<string>(type: "text", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

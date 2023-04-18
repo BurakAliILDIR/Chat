@@ -114,14 +114,21 @@ namespace Chat.API.Migrations
 
             modelBuilder.Entity("Chat.API.Entities.Meet", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastMessage")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReceiverId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -138,12 +145,10 @@ namespace Chat.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("MeetId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("MeetId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ReceiverId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("SenderId")

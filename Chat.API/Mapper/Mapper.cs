@@ -11,7 +11,6 @@ namespace Chat.API.Mapper
         {
             CreateMap<Meet, GetMeetDto>();
             CreateMap<Message, GetMessageDto>();
-            //CreateMap<Message[], ICollection<GetMessageDto>>();
             CreateMap<AppUser, GetAllUserDto>();
         }
     }

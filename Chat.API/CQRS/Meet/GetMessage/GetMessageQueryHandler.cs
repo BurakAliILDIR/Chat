@@ -27,10 +27,15 @@ namespace Chat.API.CQRS.Meet.GetMessage
         {
             var senderId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var meetId = Entities.Meet.MeetId(request.ReceiveId, senderId);
 
-            var meet = await _dbContext.Meets.Include(x => x.Messages.OrderByDescending(x => x.CreatedAt))
-                .Where(x => x.Id == meetId).FirstOrDefaultAsync();
+            var meet = await _dbContext.Meets
+                .Include(x => x.Messages.OrderByDescending(x => x.CreatedAt))
+                .Where(x => x.SenderId == senderId || x.ReceiverId == senderId).FirstOrDefaultAsync();
+
+            if (meet is null)
+            {
+                throw new Exception("Not found meet.");
+            }
 
             var meetDto = _mapper.Map<GetMeetDto>(meet);
 
