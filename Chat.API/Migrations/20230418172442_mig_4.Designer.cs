@@ -3,6 +3,7 @@ using System;
 using Chat.API;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230418172442_mig_4")]
+    partial class mig_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,8 +117,9 @@ namespace Chat.API.Migrations
 
             modelBuilder.Entity("Chat.API.Entities.Meet", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<long>("CreatedAt")
                         .HasColumnType("bigint");
@@ -141,6 +145,9 @@ namespace Chat.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("MeetId1")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ReceiverId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -155,7 +162,7 @@ namespace Chat.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MeetId");
+                    b.HasIndex("MeetId1");
 
                     b.ToTable("Messages");
                 });
@@ -291,9 +298,7 @@ namespace Chat.API.Migrations
                 {
                     b.HasOne("Chat.API.Entities.Meet", null)
                         .WithMany("Messages")
-                        .HasForeignKey("MeetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MeetId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -5,7 +5,11 @@ namespace Chat.API.Entities
 {
     public class Meet
     {
-        public IEnumerable<Message> Messages { get; set; }
+        public string Id { get; set; }
+        public string LastMessage { get; set; }
+        public long CreatedAt { get; set; }
+
+        public ICollection<Message> Messages { get; set; }
 
         public static string MeetId(string One, string Two)
         {
@@ -13,10 +17,8 @@ namespace Chat.API.Entities
             {
                 return Two + One;
             }
-            else
-            {
-                return One + Two;
-            }
+
+            return One + Two;
         }
     }
 }

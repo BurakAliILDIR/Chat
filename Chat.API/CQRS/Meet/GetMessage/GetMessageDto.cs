@@ -5,6 +5,6 @@
         public string ReceiverId { get; init; }
         public string SenderId { get; init; }
         public string Text { get; init; }
-        public DateTime CreatedAt { get; init; }
+        public long CreatedAt { get; init; }
     }
 }
