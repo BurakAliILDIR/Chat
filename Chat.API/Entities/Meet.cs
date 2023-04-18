@@ -7,7 +7,7 @@ namespace Chat.API.Entities
     {
         public string Id { get; set; }
         public string LastMessage { get; set; }
-        public long CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ICollection<Message> Messages { get; set; }
 
@@ -15,10 +15,10 @@ namespace Chat.API.Entities
         {
             if (One.CompareTo(Two) > Two.CompareTo(One))
             {
-                return Two + One;
+                return $"{Two}_{One}";
             }
 
-            return One + Two;
+            return $"{One}_{Two}";
         }
     }
 }

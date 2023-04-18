@@ -6,7 +6,7 @@ namespace Chat.API.CQRS.Meet.GetMessage
     {
         public string Id { get; set; }
         public string LastMessage { get; set; }
-        public long CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ICollection<Message> Messages { get; set; }
     }

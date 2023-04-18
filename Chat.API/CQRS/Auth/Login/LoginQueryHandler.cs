@@ -50,8 +50,8 @@ namespace Chat.API.CQRS.Auth.Login
             {
                 Id = refreshTokenId,
                 UserId = user.Id,
-                ExpireAt = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenMinute).Millisecond,
-                CreatedAt = DateTime.UtcNow.Millisecond
+                ExpireAt = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenMinute),
+                CreatedAt = DateTime.UtcNow
             });
 
             await _dbContext.SaveChangesAsync();

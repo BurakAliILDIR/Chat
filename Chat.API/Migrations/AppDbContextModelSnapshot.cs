@@ -117,8 +117,8 @@ namespace Chat.API.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<long>("CreatedAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastMessage")
                         .IsRequired()
@@ -131,8 +131,9 @@ namespace Chat.API.Migrations
 
             modelBuilder.Entity("Chat.API.Entities.Message", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -166,11 +167,11 @@ namespace Chat.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<long>("CreatedAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("ExpireAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
                         .IsRequired()

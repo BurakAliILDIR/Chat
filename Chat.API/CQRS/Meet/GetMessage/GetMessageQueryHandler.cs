@@ -27,12 +27,12 @@ namespace Chat.API.CQRS.Meet.GetMessage
         {
             var senderId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var meetId = Message.GetId(request.ReceiveId, senderId);
+            var meetId = Entities.Meet.MeetId(request.ReceiveId, senderId);
 
             var meet = await _dbContext.Meets.Include(x => x.Messages.OrderByDescending(x => x.CreatedAt))
                 .Where(x => x.Id == meetId).FirstOrDefaultAsync();
 
-            var meetDto = _mapper.Map<List<GetMeetDto>>(meet);
+            var meetDto = _mapper.Map<GetMeetDto>(meet);
 
             return new GetMessageQueryResponse()
             {

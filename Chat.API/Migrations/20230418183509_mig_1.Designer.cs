@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230418172751_mig_5")]
-    partial class mig_5
+    [Migration("20230418183509_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,8 +120,8 @@ namespace Chat.API.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<long>("CreatedAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastMessage")
                         .IsRequired()
@@ -134,8 +134,9 @@ namespace Chat.API.Migrations
 
             modelBuilder.Entity("Chat.API.Entities.Message", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -169,11 +170,11 @@ namespace Chat.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<long>("CreatedAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("ExpireAt")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
                         .IsRequired()

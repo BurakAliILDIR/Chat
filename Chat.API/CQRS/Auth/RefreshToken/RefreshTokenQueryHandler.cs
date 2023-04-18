@@ -29,7 +29,7 @@ namespace Chat.API.CQRS.Auth.RefreshToken
         public async Task<RefreshTokenQueryResponse> Handle(RefreshTokenQueryRequest request,
             CancellationToken cancellationToken)
         {
-            long expireAt = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenMinute).Millisecond;
+            DateTime expireAt = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenMinute);
             var refreshToken = await _dbContext.RefreshTokens.Where(x => x.Id.ToString() == request.RefreshToken &&
                                                                          x.ExpireAt >= expireAt).FirstOrDefaultAsync();
 
@@ -49,7 +49,7 @@ namespace Chat.API.CQRS.Auth.RefreshToken
                 Id = refreshTokenId,
                 UserId = user.Id,
                 ExpireAt = expireAt,
-                CreatedAt = DateTime.UtcNow.Millisecond
+                CreatedAt = DateTime.UtcNow
             });
 
             await _dbContext.SaveChangesAsync();
