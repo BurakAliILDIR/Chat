@@ -29,7 +29,7 @@ namespace Chat.API.CQRS.Meet.GetMessage
 
 
             var meet = await _dbContext.Meets
-                .Include(x => x.Messages.OrderByDescending(x => x.CreatedAt))
+                .Include(x => x.Messages.OrderBy(x => x.CreatedAt))
                 .Where(x => x.SenderId == senderId || x.ReceiverId == senderId).FirstOrDefaultAsync();
 
             if (meet is null)
@@ -38,6 +38,8 @@ namespace Chat.API.CQRS.Meet.GetMessage
             }
 
             var meetDto = _mapper.Map<GetMeetDto>(meet);
+
+            meetDto.Receiver = senderId == meet.SenderId ? meet.ReceiverId : senderId;
 
             return new GetMessageQueryResponse()
             {
