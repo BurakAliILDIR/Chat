@@ -17,6 +17,7 @@ namespace Chat.API.Hubs.Message
             _mediator = mediator;
         }
 
+
         public async Task SendMessage(SendMessageCommandRequest request)
         {
             await _mediator.Send(request);
@@ -24,9 +25,9 @@ namespace Chat.API.Hubs.Message
             var sender = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await Clients.User(request.ReceiverId)
-               .SendAsync("ReceiveMessage", sender + ": " + request.Text);
+                .SendAsync("ReceiveMessage", request.Text);
 
-            //await Clients.All.SendAsync("ReceiveMessage", sender + ": " + request.Text);
+            // await Clients.All.SendAsync("ReceiveMessage", sender + ": " + request.Text);
         }
 
         public override async Task OnConnectedAsync()

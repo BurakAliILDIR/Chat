@@ -50,7 +50,10 @@ builder.Services.AddAutoMapper(typeof(Mapper));
 builder.Services.AddScoped<IMailService, MailService>();
 
 // SignalR
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+}).AddMessagePackProtocol();
 
 builder.Services.AddCors(options =>
 {
