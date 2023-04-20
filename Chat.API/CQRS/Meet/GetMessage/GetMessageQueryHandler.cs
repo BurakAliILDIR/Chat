@@ -30,7 +30,9 @@ namespace Chat.API.CQRS.Meet.GetMessage
 
             var meet = await _dbContext.Meets
                 .Include(x => x.Messages.OrderBy(x => x.CreatedAt))
-                .Where(x => x.SenderId == senderId || x.ReceiverId == senderId).FirstOrDefaultAsync();
+                .Where(x => x.SenderId == senderId || x.ReceiverId == senderId)
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize).FirstOrDefaultAsync();
 
             if (meet is null)
             {

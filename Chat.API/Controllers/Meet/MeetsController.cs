@@ -26,16 +26,8 @@ namespace Chat.API.Controllers.Meet
             return Ok(response);
         }
 
-        [HttpPost("Send")]
-        public async Task<IActionResult> SendMessage(SendMessageCommandRequest request)
-        {
-            var response = await _mediator.Send(request);
-
-            return Ok(response);
-        }
-
-        [HttpPost("Get/Messages")]
-        public async Task<IActionResult> GetMessages(GetMessageQueryRequest request)
+        [HttpGet]
+        public async Task<IActionResult> GetMessages([FromQuery] GetMessageQueryRequest request)
         {
             var response = await _mediator.Send(request);
 
