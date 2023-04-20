@@ -24,7 +24,7 @@ namespace Chat.API.Hubs.Message
 
             var sender = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await Clients.User(request.ReceiverId)
+            await Clients.Users(request.ReceiverId)
                 .SendAsync("ReceiveMessage", request.Text);
 
             // await Clients.All.SendAsync("ReceiveMessage", sender + ": " + request.Text);

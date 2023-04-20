@@ -39,7 +39,7 @@ namespace Chat.API.CQRS.Meet.GetMessage
 
             var meetDto = _mapper.Map<GetMeetDto>(meet);
 
-            meetDto.Receiver = senderId == meet.SenderId ? meet.ReceiverId : senderId;
+            meetDto.Receiver = senderId == meet.SenderId ? meet.ReceiverId : meet.SenderId;
 
             return new GetMessageQueryResponse()
             {

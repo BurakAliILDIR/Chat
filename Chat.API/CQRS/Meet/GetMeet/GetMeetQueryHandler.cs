@@ -39,7 +39,7 @@ namespace Chat.API.CQRS.Meet.GetMeet
                     Id = meet.Id,
                     LastMessage = meet.LastMessage,
                     CreatedAt = meet.CreatedAt,
-                    Receiver = meet.SenderId == senderId ? meet.ReceiverId : senderId
+                    Receiver = meet.SenderId == senderId ? meet.ReceiverId : meet.SenderId
                 });
             }
 
