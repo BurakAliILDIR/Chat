@@ -1,7 +1,6 @@
 using Chat.API;
 using Chat.API.Extensions;
 using Chat.API.Hubs;
-using Chat.API.Hubs.Message;
 using Chat.API.Infrastructure.Mail;
 using Chat.API.Mapper;
 using Chat.API.Middlewares;

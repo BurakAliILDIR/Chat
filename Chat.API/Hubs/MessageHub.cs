@@ -1,11 +1,12 @@
 ﻿using System.Security.Claims;
+using Chat.API.CQRS.Meet.DeleteMessage;
 using Chat.API.CQRS.Meet.SendMessage;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Chat.API.Hubs.Message
+namespace Chat.API.Hubs
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MessageHub : Hub
@@ -21,13 +22,11 @@ namespace Chat.API.Hubs.Message
         public async Task SendMessage(SendMessageCommandRequest request)
         {
             await _mediator.Send(request);
+        }
 
-            var sender = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            await Clients.Users(request.ReceiverId)
-                .SendAsync("ReceiveMessage", request.Text);
-
-            // await Clients.All.SendAsync("ReceiveMessage", sender + ": " + request.Text);
+        public async Task DeleteMessage(DeleteMessageCommandRequest request)
+        {
+            await _mediator.Send(request);
         }
 
         public override async Task OnConnectedAsync()

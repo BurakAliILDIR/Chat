@@ -8,7 +8,11 @@
         public string SenderId { get; init; }
         public string Text { get; init; }
         public DateTime CreatedAt { get; init; }
+        public DateTime? DeletedAt { get; set; }
 
+        public Message()
+        {
+        }
 
         public Message(Guid meetId, string? receiverId, string senderId, string text)
         {
