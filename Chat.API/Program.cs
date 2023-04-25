@@ -87,7 +87,6 @@ app.MapControllers();
 
 app.UseCors("CorsPolicy");
 
-app.MapHub<MyHub>("/myhub");
 app.MapHub<MessageHub>("/messagehub");
 
 app.Run();
