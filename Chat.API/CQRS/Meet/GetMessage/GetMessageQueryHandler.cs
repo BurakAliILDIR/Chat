@@ -23,7 +23,6 @@ public class GetMessageQueryHandler : IRequestHandler<GetMessageQueryRequest, Ge
     {
         var senderId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-
         var meet = await _dbContext.Meets
             .Include(x =>
                 x.Messages
